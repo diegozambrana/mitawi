@@ -3,11 +3,18 @@
 import Link from "next/link";
 
 export const Sidebar = () => {
+  const links = [
+    { label: "Repositories", path: "/compareRepo" },
+    { label: "Organizations", path: "/compareOrg" },
+    { label: "Package Downloads", path: "/compareDownloads" },
+  ];
   return (
     <nav>
-      <li>
-        <Link href={"/testing-page"}>Testing page</Link>
-      </li>
+      {links.map((link) => (
+        <li key={`li_${link.label}`}>
+          <Link href={link.path}>{link.label}</Link>
+        </li>
+      ))}
     </nav>
   );
 };
