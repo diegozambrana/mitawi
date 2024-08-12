@@ -1,10 +1,11 @@
 import styles from "./page.module.css";
-import { Button } from "@mantine/core";
+import { Button, Text, Title } from "@mantine/core";
 export default function Home() {
   return (
     <main className={styles.main}>
-      <div>Hola</div>
-      <Button variant="filled">Hello</Button>
+      <Title order={2}>Mitawi</Title>
+      <Text>Welcome to Mitawi</Text>
+      <Text>This is a collection of tools that use AI for analytics.</Text>
     </main>
   );
 }

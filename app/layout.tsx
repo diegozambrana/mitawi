@@ -7,9 +7,13 @@ import {
   Container,
   MantineProvider,
   createTheme,
+  Flex,
+  Button,
 } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { AdminLayout } from "@/components/layout/AdminLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +35,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <MantineProvider>
           <Notifications />
-          <div>{children}</div>
+          <AdminLayout>
+            <div>{children}</div>
+          </AdminLayout>
         </MantineProvider>
       </body>
     </html>
