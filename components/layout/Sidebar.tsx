@@ -11,10 +11,8 @@ export const Sidebar = () => {
   return (
     <nav>
       {links.map((link) => (
-        <li>
-          <Link key={`li_${link.label}`} href={link.path}>
-            {link.label}
-          </Link>
+        <li key={`li_${link.label}`}>
+          <Link href={link.path}>{link.label}</Link>
         </li>
       ))}
     </nav>
