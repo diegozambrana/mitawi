@@ -1,5 +1,5 @@
 "use client";
-import { AppShell, Burger } from "@mantine/core";
+import { AppShell, Box, Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
@@ -26,7 +26,9 @@ export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         <Sidebar />
       </AppShell.Navbar>
 
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main bg={"rgb(242,242,242)"}>
+        <Box>{children}</Box>
+      </AppShell.Main>
     </AppShell>
   );
 };

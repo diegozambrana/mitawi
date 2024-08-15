@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { NavLink } from "@mantine/core";
 import { usePathname } from "next/navigation";
-import { IconBrandGithub, IconBrandPython } from "@tabler/icons-react";
+import {
+  IconBrandGithub,
+  IconBrandPython,
+  IconBrandYahoo,
+} from "@tabler/icons-react";
 
 export const Sidebar = () => {
   const pathname = usePathname();
@@ -23,6 +27,11 @@ export const Sidebar = () => {
       label: "Package Downloads",
       path: "/compareDownloads",
       icon: IconBrandPython,
+    },
+    {
+      label: "Yahoo Finance",
+      path: "/yahooFinanceHistory",
+      icon: IconBrandYahoo,
     },
   ];
 
