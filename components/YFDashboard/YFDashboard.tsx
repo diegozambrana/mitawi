@@ -23,7 +23,7 @@ export const YFDashboard: FC = () => {
     if (filter !== "all") {
       filteredData = filteredData.slice(parseInt(`-${filter}`));
     }
-    console.log("filteredData", filteredData.length);
+
     return {
       name: data.symbol,
       data: filteredData.map((item: any) => ({
@@ -50,17 +50,14 @@ export const YFDashboard: FC = () => {
   return (
     <Grid>
       <GridCol span={12}>
-        <Title order={2} mb="lg">
+        <Title order={3} mb="lg">
           {data?.symbol}
         </Title>
       </GridCol>
 
       <GridCol span={8}>
         <Card shadow="sm" padding="md" radius="md">
-          <Group justify="space-between">
-            <Box>
-              <Title order={3}>Chart</Title>
-            </Box>
+          <Group justify="end">
             <Box my="sm">
               <SegmentedControl
                 data={["30", "90", "180", "all"]}
