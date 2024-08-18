@@ -13,6 +13,7 @@ import {
 import { YFDashboardContext } from "./YFDashboardContext";
 import { TimeSerieChart } from "../charts/TimeSerieChart";
 import { TableFromListDict } from "../TableFromListDict";
+import { Loading } from "../ui/Loading";
 
 export const YFDashboard: FC = () => {
   const { data, loading } = useContext(YFDashboardContext);
@@ -45,7 +46,7 @@ export const YFDashboard: FC = () => {
   }, [data]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading height="18rem" />;
   }
   return (
     <Grid>
