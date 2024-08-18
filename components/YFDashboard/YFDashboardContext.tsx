@@ -1,19 +1,22 @@
 "use client";
 import { useYF } from "@/hooks/api/useYF";
 import { createContext, FC, useEffect, useState } from "react";
+import { notifications } from "@mantine/notifications";
 
 export type YFDashboardContextType = {
   data: any;
   setData: any;
   loading: boolean;
-  // setLoading: any;
+  symbol: string | null;
+  setSymbol: any;
 };
 
 export const YFDashboardContext = createContext<YFDashboardContextType>({
   data: null,
   setData: () => {},
   loading: true,
-  // setLoading: () => {},
+  symbol: null,
+  setSymbol: () => {},
 });
 
 export type YFDashboardProviderProps = {
@@ -24,14 +27,22 @@ export const YFDashboardProvider: FC<YFDashboardProviderProps> = ({
   children,
 }) => {
   const [data, setData] = useState<any>(null);
-  // const [loading, setLoading] = useState<boolean>(true);
+  const [symbol, setSymbol] = useState<string | null>(null);
   const { isLoading, getYFData } = useYF();
 
   useEffect(() => {
-    getYFData("BTC-USD").then((data) => {
+    if (!symbol) return;
+    getYFData(symbol).then((data) => {
+      if (data.error) {
+        notifications.show({
+          title: "Error",
+          message: "Exists an error with the API, this data is not updated.",
+          color: "red",
+        });
+      }
       setData(data);
     });
-  }, []);
+  }, [symbol]);
 
   return (
     <YFDashboardContext.Provider
@@ -39,7 +50,8 @@ export const YFDashboardProvider: FC<YFDashboardProviderProps> = ({
         data,
         setData,
         loading: isLoading,
-        // setLoading,
+        symbol,
+        setSymbol,
       }}
     >
       {children}

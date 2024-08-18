@@ -1,12 +1,12 @@
 "use client";
 import { FC } from "react";
 import { YFDashboardProvider } from "./YFDashboardContext";
-import { YFDashboard } from "./YFDashboard";
+import { YFDashboardWrapper } from "./YFDashboardWrapper";
 
 export const YFDashboardContainer: FC = () => {
   return (
     <YFDashboardProvider>
-      <YFDashboard />
+      <YFDashboardWrapper />
     </YFDashboardProvider>
   );
 };
