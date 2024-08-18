@@ -2,11 +2,14 @@
 import { FC } from "react";
 import { YFDashboardProvider } from "./YFDashboardContext";
 import { YFDashboardWrapper } from "./YFDashboardWrapper";
+import { Suspense } from "react";
 
 export const YFDashboardContainer: FC = () => {
   return (
     <YFDashboardProvider>
-      <YFDashboardWrapper />
+      <Suspense>
+        <YFDashboardWrapper />
+      </Suspense>
     </YFDashboardProvider>
   );
 };
