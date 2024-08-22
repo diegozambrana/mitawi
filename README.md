@@ -1,6 +1,6 @@
 # Mit'awi
 
-Mitawi-app is a set of tools that use AI services.
+Mitawi is a set of tools that use AI services.
 
 ## Run
 
