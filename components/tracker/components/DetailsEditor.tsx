@@ -55,8 +55,8 @@ export const DetailsEditor: FC<DetailsEditorProps> = ({ value, onChange }) => {
   return (
     <Box>
       {value.map((item, index) => (
-        <Flex align="center" mt="md">
-          <SimpleGrid key={index} cols={3} spacing="sm">
+        <Flex align="center" mt="md" key={index}>
+          <SimpleGrid cols={3} spacing="sm">
             <Select
               value={item.type}
               onChange={(type) => {
