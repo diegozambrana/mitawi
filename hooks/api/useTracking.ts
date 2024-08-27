@@ -31,8 +31,9 @@ export const useTracking = (code: string) => {
       return res;
     });
 
-  const updateTrackerDetail = (data: any) =>
-    axios.put(`${API_DOMAIN}/api/tracker/trackers/${code}`);
+  const updateTrackerDetail = (data: any) => {
+    return axios.put(`${API_DOMAIN}/api/tracker/trackers/${code}`, data);
+  };
 
   const startTracking = () =>
     axios
@@ -46,7 +47,10 @@ export const useTracking = (code: string) => {
     axios.get(`${API_DOMAIN}/api/tracker/${id}`);
 
   const updateTracking = (id: string, data: any) =>
-    axios.put(`${API_DOMAIN}/api/tracker/${id}`, data);
+    axios.put(`${API_DOMAIN}/api/tracker/${id}`, data).then((res) => {
+      setCurrentTracking(res.data);
+      return res;
+    });
 
   const deleteTracking = (id: string) =>
     axios.delete(`${API_DOMAIN}/api/tracker/${id}`).finally(() => {
