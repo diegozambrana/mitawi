@@ -49,7 +49,9 @@ export const useTracking = (code: string) => {
     axios.put(`${API_DOMAIN}/api/tracker/${id}`, data);
 
   const deleteTracking = (id: string) =>
-    axios.delete(`${API_DOMAIN}/api/tracker/${id}`);
+    axios.delete(`${API_DOMAIN}/api/tracker/${id}`).finally(() => {
+      getTrackingList();
+    });
 
   const getTrackingList = () =>
     axios

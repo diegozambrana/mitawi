@@ -13,9 +13,11 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { IconX } from "@tabler/icons-react";
-import { FC, useEffect } from "react";
+import { IconCheck, IconX } from "@tabler/icons-react";
+import { FC, useEffect, useRef, useState } from "react";
 import { DetailTrackerAction } from "./components/DetailTrackerAction";
+import { formatDateTime } from "@/utils/datetime";
+import { RemoveTracking } from "./components/RemoveTracking";
 
 type TrackingProps = {
   trackerCode: string;
@@ -30,7 +32,20 @@ export const Tracking: FC<TrackingProps> = ({ trackerCode }) => {
     startTracking,
     updateTracking,
     finishTracking,
+    deleteTracking,
   } = useTracking(trackerCode);
+
+  const [openDeleteTracking, setOpenDeleteTracking] = useState(false);
+  const selectedTrackingId = useRef("");
+
+  const onSelectRemoveTracking = (tracker_id: string) => {
+    selectedTrackingId.current = tracker_id;
+    setOpenDeleteTracking(true);
+  };
+  const onConfirmRemoveTracking = () => {
+    deleteTracking(selectedTrackingId.current);
+    setOpenDeleteTracking(false);
+  };
 
   useEffect(() => {
     getTrackerDetail();
@@ -65,30 +80,51 @@ export const Tracking: FC<TrackingProps> = ({ trackerCode }) => {
         </Box>
       )}
 
-      <Table mt="lg">
-        <TableThead>
-          <TableTr>
-            <TableTh>Start Date</TableTh>
-            <TableTh>End Date</TableTh>
-            <TableTh>Status</TableTh>
-            <TableTh></TableTh>
-          </TableTr>
-        </TableThead>
-        <TableTbody>
-          {trackingList.map((track) => (
-            <TableTr key={track.tracker_id}>
-              <TableTd>{track.started_at}</TableTd>
-              <TableTd>{track.finished_at}</TableTd>
-              <TableTd>{track.status}</TableTd>
-              <TableTd>
-                <ActionIcon>
-                  <IconX />
-                </ActionIcon>
-              </TableTd>
+      {trackingList.length === 0 && <Box mt="md">No Data to display</Box>}
+
+      {trackingList.length > 0 && (
+        <Table mt="lg">
+          <TableThead>
+            <TableTr>
+              <TableTh>Start Date</TableTh>
+              <TableTh>End Date</TableTh>
+              <TableTh>Status</TableTh>
+              {trackerDetail.details.map((detail: any) => (
+                <TableTh key={detail.field}>{detail.label}</TableTh>
+              ))}
+              <TableTh>Actions</TableTh>
             </TableTr>
-          ))}
-        </TableTbody>
-      </Table>
+          </TableThead>
+          <TableTbody>
+            {trackingList.map((track) => (
+              <TableTr key={track.tracker_id}>
+                <TableTd>{formatDateTime(track.started_at)}</TableTd>
+                <TableTd>{formatDateTime(track.finished_at)}</TableTd>
+                <TableTd>{track.status}</TableTd>
+                {trackerDetail.details.map((detail: any) => (
+                  <TableTd key={detail.field}>
+                    {detail.type === "boolean" &&
+                      (track.data[detail.field] ? <IconCheck /> : <IconX />)}
+                    {track.data[detail.field]}
+                  </TableTd>
+                ))}
+                <TableTd>
+                  <ActionIcon
+                    onClick={() => onSelectRemoveTracking(track.tracker_id)}
+                  >
+                    <IconX />
+                  </ActionIcon>
+                </TableTd>
+              </TableTr>
+            ))}
+          </TableTbody>
+        </Table>
+      )}
+      <RemoveTracking
+        open={openDeleteTracking}
+        onClose={() => setOpenDeleteTracking(false)}
+        onRemove={onConfirmRemoveTracking}
+      />
     </Box>
   );
 };
