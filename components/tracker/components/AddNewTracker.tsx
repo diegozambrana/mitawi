@@ -20,11 +20,11 @@ export const AddNewTracker: FC<AddNewTracker> = ({
 
   const form = useForm({
     initialValues: {
-      code: "",
+      name: "",
       description: "",
     },
     validate: {
-      code: (value: string) =>
+      name: (value: string) =>
         value.length === 0
           ? "This field is required"
           : value.length <= 2
@@ -55,10 +55,10 @@ export const AddNewTracker: FC<AddNewTracker> = ({
         })}
       >
         <TextInput
-          label="Code"
-          placeholder="Code"
+          label="Name"
+          placeholder="Name"
           required
-          {...form.getInputProps("code")}
+          {...form.getInputProps("name")}
         />
         <TextInput
           label="Description"

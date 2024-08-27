@@ -13,7 +13,7 @@ import { AddNewTracker } from "./components/AddNewTracker";
 
 export const Tracker: FC = () => {
   const [trackerDetails, setTrackerDetails] = useState<any[]>();
-  const [openNew, setOpenNew] = useState(true);
+  const [openNew, setOpenNew] = useState(false);
 
   const { getTrackerDeatils } = useTracker();
 
@@ -38,7 +38,7 @@ export const Tracker: FC = () => {
         {trackerDetails?.map((tracker) => (
           <GridCol span={{ base: 12, sm: 6, md: 4, lg: 3 }} key={tracker.id}>
             <Card shadow="sm" padding="md" radius="md">
-              <Title order={4}>{tracker.code}</Title>
+              <Title order={4}>{tracker.name}</Title>
               <Text>{tracker.description}</Text>
               <Box mt="sm">
                 <Button component={Link} href={`/tracker/${tracker.code}`}>
