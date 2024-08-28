@@ -9,8 +9,7 @@ export const formatDateTime = (timestamp: string) => {
   const date = new Date(timestamp);
 
   // Ajustar la hora a GMT-4
-  const offsetInHours = getTimeZone(); // GMT-4
-  const localDate = new Date(date.getTime() + offsetInHours * 60 * 60 * 1000);
+  const localDate = new Date(date.getTime());
 
   const day = String(localDate.getDate()).padStart(2, "0");
   const month = String(localDate.getMonth() + 1).padStart(2, "0");
