@@ -26,7 +26,7 @@ export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         <Sidebar />
       </AppShell.Navbar>
 
-      <AppShell.Main bg={"rgb(242,242,242)"}>
+      <AppShell.Main>
         <Box>{children}</Box>
       </AppShell.Main>
     </AppShell>

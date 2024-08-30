@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { NavLink } from "@mantine/core";
+import { Box, NavLink } from "@mantine/core";
 import { usePathname } from "next/navigation";
 import {
   IconBrandGithub,
@@ -36,9 +36,9 @@ export const Sidebar = () => {
   ];
 
   return (
-    <div>
+    <Box>
       {links.map((link) => (
-        <div key={`li_${link.label}`}>
+        <Box key={`li_${link.label}`} style={{ color: "nord.4" }}>
           <Link href={link.path} passHref legacyBehavior>
             <NavLink
               component="a"
@@ -48,8 +48,8 @@ export const Sidebar = () => {
               active={pathname.startsWith(link.path)} /* icon={icon} */
             />
           </Link>
-        </div>
+        </Box>
       ))}
-    </div>
+    </Box>
   );
 };

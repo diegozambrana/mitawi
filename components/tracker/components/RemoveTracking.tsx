@@ -16,7 +16,7 @@ export const RemoveTracking: FC<RemoveTrackingProps> = ({
     <Modal title="Remove track" opened={open} onClose={onClose}>
       <Text>Are you want to remove this track?</Text>
       <Flex justify="flex-end" mt="md">
-        <Button variant="filled" color="gray" onClick={onClose}>
+        <Button variant="filled" color="nord3" onClick={onClose}>
           Cancel
         </Button>
         <Button onClick={onRemove} ml="sm">

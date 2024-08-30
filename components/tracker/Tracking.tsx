@@ -104,8 +104,14 @@ export const Tracking: FC<TrackingProps> = ({ trackerCode }) => {
                 {trackerDetail.details.map((detail: any) => (
                   <TableTd key={detail.field}>
                     {detail.type === "boolean" &&
-                      (track.data[detail.field] ? <IconCheck /> : <IconX />)}
-                    {track.data[detail.field]}
+                      (!track.data ? (
+                        "-"
+                      ) : track.data[detail.field] ? (
+                        <IconCheck />
+                      ) : (
+                        <IconX />
+                      ))}
+                    {track.data && track.data[detail.field]}
                   </TableTd>
                 ))}
                 <TableTd>
