@@ -4,7 +4,7 @@ import Link from "next/link";
 export const Header = () => {
   return (
     <Box style={{ display: "inline-block" }} ml={16}>
-      <Link href="/" style={{ textDecoration: "none", color: "black" }}>
+      <Link href="/" style={{ textDecoration: "none" }}>
         <Title order={1}>Mitawi</Title>
       </Link>
     </Box>

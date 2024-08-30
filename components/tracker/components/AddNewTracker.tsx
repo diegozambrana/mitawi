@@ -74,7 +74,7 @@ export const AddNewTracker: FC<AddNewTracker> = ({
           <DetailsEditor value={details} onChange={setDetails} />
         </Box>
         <Flex justify="flex-end" mt="md">
-          <Button variant="filled" color="gray" onClick={onClose}>
+          <Button variant="filled" color="nord3" onClick={onClose}>
             Cancel
           </Button>
           <Button type="submit" ml="sm">

@@ -85,7 +85,7 @@ export const DetailsEditor: FC<DetailsEditorProps> = ({ value, onChange }) => {
             onClick={() => removeElement(index)}
             ml="sm"
             variant="light"
-            color="red"
+            color="nord11"
             size="sm"
             radius="xl"
           >

@@ -1,4 +1,4 @@
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 import { Box, Button, Card, Text, Title } from "@mantine/core";
 export default function Home() {
   return (

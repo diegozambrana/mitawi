@@ -28,7 +28,7 @@ export const SelectSymbolModal: FC = () => {
           required
         />
         <Group justify="end" mt="md">
-          <Button onClick={close} color="gray">
+          <Button onClick={close} color="nord3">
             Cancel
           </Button>
           <Button onClick={onSelect}>Select</Button>
