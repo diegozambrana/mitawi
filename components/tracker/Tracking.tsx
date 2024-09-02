@@ -87,63 +87,65 @@ export const Tracking: FC<TrackingProps> = ({ trackerCode }) => {
 
       {trackingList.length === 0 && <Box mt="md">No Data to display</Box>}
 
-      {trackingList.length > 0 && (
-        <Table mt="lg">
-          <TableThead>
-            <TableTr>
-              <TableTh>Start Date</TableTh>
-              <TableTh>End Date</TableTh>
-              <TableTh>Status</TableTh>
-              {trackerDetail.details.map((detail: any) => (
-                <TableTh key={detail.field}>{detail.label}</TableTh>
-              ))}
-              <TableTh>Actions</TableTh>
-            </TableTr>
-          </TableThead>
-          <TableTbody>
-            {trackingList.map((track) => (
-              <TableTr key={track.tracker_id}>
-                <TableTd>{formatDateTime(track.started_at)}</TableTd>
-                <TableTd>{formatDateTime(track.finished_at)}</TableTd>
-                <TableTd>{track.status}</TableTd>
+      <div style={{ overflowX: "auto" }}>
+        {trackingList.length > 0 && (
+          <Table mt="lg">
+            <TableThead>
+              <TableTr>
+                <TableTh>Start Date</TableTh>
+                <TableTh>End Date</TableTh>
+                <TableTh>Status</TableTh>
                 {trackerDetail.details.map((detail: any) => (
-                  <TableTd key={detail.field}>
-                    {detail.type === "boolean" &&
-                      (!track.data ? (
-                        "-"
-                      ) : track.data[detail.field] ? (
-                        <IconCheck />
-                      ) : (
-                        <IconX />
-                      ))}
-                    {track.data && track.data[detail.field]}
-                  </TableTd>
+                  <TableTh key={detail.field}>{detail.label}</TableTh>
                 ))}
-                <TableTd>
-                  <ActionIcon
-                    mr="sm"
-                    onClick={() => {
-                      onSelectTracking(track.tracker_id);
-                      setOpenEditTracking(true);
-                    }}
-                  >
-                    <IconPencil />
-                  </ActionIcon>
-
-                  <ActionIcon
-                    onClick={() => {
-                      onSelectTracking(track.tracker_id);
-                      setOpenDeleteTracking(true);
-                    }}
-                  >
-                    <IconX />
-                  </ActionIcon>
-                </TableTd>
+                <TableTh>Actions</TableTh>
               </TableTr>
-            ))}
-          </TableTbody>
-        </Table>
-      )}
+            </TableThead>
+            <TableTbody>
+              {trackingList.map((track) => (
+                <TableTr key={track.tracker_id}>
+                  <TableTd>{formatDateTime(track.started_at)}</TableTd>
+                  <TableTd>{formatDateTime(track.finished_at)}</TableTd>
+                  <TableTd>{track.status}</TableTd>
+                  {trackerDetail.details.map((detail: any) => (
+                    <TableTd key={detail.field}>
+                      {detail.type === "boolean" &&
+                        (!track.data ? (
+                          "-"
+                        ) : track.data[detail.field] ? (
+                          <IconCheck />
+                        ) : (
+                          <IconX />
+                        ))}
+                      {track.data && track.data[detail.field]}
+                    </TableTd>
+                  ))}
+                  <TableTd>
+                    <ActionIcon
+                      mr="sm"
+                      onClick={() => {
+                        onSelectTracking(track.tracker_id);
+                        setOpenEditTracking(true);
+                      }}
+                    >
+                      <IconPencil />
+                    </ActionIcon>
+
+                    <ActionIcon
+                      onClick={() => {
+                        onSelectTracking(track.tracker_id);
+                        setOpenDeleteTracking(true);
+                      }}
+                    >
+                      <IconX />
+                    </ActionIcon>
+                  </TableTd>
+                </TableTr>
+              ))}
+            </TableTbody>
+          </Table>
+        )}
+      </div>
       <RemoveTracking
         open={openDeleteTracking}
         onClose={() => setOpenDeleteTracking(false)}

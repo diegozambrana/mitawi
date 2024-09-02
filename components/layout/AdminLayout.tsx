@@ -18,8 +18,7 @@ export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       padding="md"
     >
       <AppShell.Header>
-        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-        <Header />
+        <Header BurgerOpened={opened} onClickBurger={toggle} />
       </AppShell.Header>
 
       <AppShell.Navbar p="md">
