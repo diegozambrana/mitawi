@@ -8,7 +8,7 @@ type EditTrackingProps = {
   details: any;
   open: boolean;
   onClose: () => void;
-  onEdit: () => void;
+  onEdit: (data: any) => void;
 };
 
 export const EditTracking: FC<EditTrackingProps> = ({
@@ -26,7 +26,12 @@ export const EditTracking: FC<EditTrackingProps> = ({
 
   const onSubmit = (e: BaseSyntheticEvent) => {
     e.preventDefault();
-    console.log("tracking", tracking);
+    onEdit({
+      started_at: tracking.started_at.toISOString(),
+      finished_at: tracking.finished_at.toISOString(),
+      status: tracking.status,
+      data: tracking.data,
+    });
   };
 
   if (!trackingData) {

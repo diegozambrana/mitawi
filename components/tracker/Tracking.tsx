@@ -76,7 +76,7 @@ export const Tracking: FC<TrackingProps> = ({ trackerCode }) => {
             value={currentTracking.data}
             details={trackerDetail.details}
             onChange={(data) => {
-              updateTracking(currentTracking.tracker_id, data);
+              updateTracking(currentTracking.tracker_id, { data });
             }}
           />
           <Button onClick={finishTracking} mt="lg" fullWidth>
@@ -153,7 +153,20 @@ export const Tracking: FC<TrackingProps> = ({ trackerCode }) => {
         <EditTracking
           open={openEditTracking}
           onClose={() => setOpenEditTracking(false)}
-          onEdit={() => {}}
+          onEdit={(updatedData) => {
+            console.log(
+              "~~~ currentTracking",
+              selectedTrackingId.current,
+              updatedData
+            );
+            updateTracking(
+              selectedTrackingId.current,
+              updatedData,
+              true
+            ).finally(() => {
+              setOpenEditTracking(false);
+            });
+          }}
           trackingData={selectedTracking}
           details={trackerDetail.details}
         />
