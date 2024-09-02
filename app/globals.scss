@@ -5,3 +5,9 @@
 body {
   background-color: #e5e9f0 !important;
 }
+
+@media screen and (min-width: 48em) {
+  .burger__button {
+    display: none;
+  }
+}
