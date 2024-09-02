@@ -1,6 +1,6 @@
-import { BaseSyntheticEvent, FC } from "react";
+import { FC } from "react";
 import { DetailElement } from "./DetailsEditor";
-import { Box, Checkbox, Input, NumberInput, TextInput } from "@mantine/core";
+import { Box, Checkbox, NumberInput, TextInput } from "@mantine/core";
 
 type DetailValueType = { [field: string]: string | number | boolean };
 
@@ -31,19 +31,21 @@ export const DetailTrackerAction: FC<DetailTrackerActionProps> = ({
           {detail.type === "text" && (
             <TextInput
               label={detail.label}
-              //   value={value[detail.field]}
+              defaultValue={value[detail.field] as string}
               onBlur={(e) => onChangeField(detail.field, e.currentTarget.value)}
             />
           )}
           {detail.type === "number" && (
             <NumberInput
               label={detail.label}
+              defaultValue={value[detail.field] as string}
               onBlur={(e) => onChangeField(detail.field, e.currentTarget.value)}
             />
           )}
           {detail.type === "boolean" && (
             <Checkbox
               label={detail.label}
+              defaultChecked={value[detail.field] as boolean}
               onChange={(e) =>
                 onChangeField(detail.field, e.currentTarget.checked)
               }

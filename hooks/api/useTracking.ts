@@ -46,9 +46,17 @@ export const useTracking = (code: string) => {
   const getTracking = (id: string) =>
     axios.get(`${API_DOMAIN}/api/tracker/${id}`);
 
-  const updateTracking = (id: string, data: any) =>
+  const updateTracking = (
+    id: string,
+    data: any,
+    forceReload: boolean = false
+  ) =>
     axios.put(`${API_DOMAIN}/api/tracker/${id}`, data).then((res) => {
-      setCurrentTracking(res.data);
+      if (forceReload) {
+        getTrackingList();
+      } else {
+        setCurrentTracking(res.data);
+      }
       return res;
     });
 
