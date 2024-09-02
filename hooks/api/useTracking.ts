@@ -69,7 +69,16 @@ export const useTracking = (code: string) => {
     axios
       .get(`${API_DOMAIN}/api/tracker/trackers/${trackerDetail.id}/tracks`)
       .then((res) => {
-        setTrackingList(res.data);
+        if (res.data[0].status === "started") {
+          const current = res.data[0];
+          if (!current.data) {
+            current.data = getBaseDataDetails();
+          }
+          setCurrentTracking(current);
+          setTrackingList(res.data.slice(1));
+        } else {
+          setTrackingList(res.data);
+        }
         return res;
       });
 
