@@ -13,11 +13,12 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { IconCheck, IconPencil, IconX } from "@tabler/icons-react";
 import { FC, useEffect, useRef, useState } from "react";
 import { DetailTrackerAction } from "./components/DetailTrackerAction";
 import { formatDateTime } from "@/utils/datetime";
 import { RemoveTracking } from "./components/RemoveTracking";
+import { EditTracking } from "./components/EditTracking";
 
 type TrackingProps = {
   trackerCode: string;
@@ -36,11 +37,15 @@ export const Tracking: FC<TrackingProps> = ({ trackerCode }) => {
   } = useTracking(trackerCode);
 
   const [openDeleteTracking, setOpenDeleteTracking] = useState(false);
+  const [openEditTracking, setOpenEditTracking] = useState(false);
+  const [selectedTracking, setSelectedTracking] = useState<any>();
   const selectedTrackingId = useRef("");
 
-  const onSelectRemoveTracking = (tracker_id: string) => {
+  const onSelectTracking = (tracker_id: string) => {
+    setSelectedTracking(
+      trackingList.find((track) => track.tracker_id === tracker_id)
+    );
     selectedTrackingId.current = tracker_id;
-    setOpenDeleteTracking(true);
   };
   const onConfirmRemoveTracking = () => {
     deleteTracking(selectedTrackingId.current);
@@ -116,7 +121,20 @@ export const Tracking: FC<TrackingProps> = ({ trackerCode }) => {
                 ))}
                 <TableTd>
                   <ActionIcon
-                    onClick={() => onSelectRemoveTracking(track.tracker_id)}
+                    mr="sm"
+                    onClick={() => {
+                      onSelectTracking(track.tracker_id);
+                      setOpenEditTracking(true);
+                    }}
+                  >
+                    <IconPencil />
+                  </ActionIcon>
+
+                  <ActionIcon
+                    onClick={() => {
+                      onSelectTracking(track.tracker_id);
+                      setOpenDeleteTracking(true);
+                    }}
                   >
                     <IconX />
                   </ActionIcon>
@@ -131,6 +149,15 @@ export const Tracking: FC<TrackingProps> = ({ trackerCode }) => {
         onClose={() => setOpenDeleteTracking(false)}
         onRemove={onConfirmRemoveTracking}
       />
+      {openEditTracking && selectedTracking && (
+        <EditTracking
+          open={openEditTracking}
+          onClose={() => setOpenEditTracking(false)}
+          onEdit={() => {}}
+          trackingData={selectedTracking}
+          details={trackerDetail.details}
+        />
+      )}
     </Box>
   );
 };
