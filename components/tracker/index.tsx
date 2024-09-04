@@ -6,6 +6,9 @@ import {
   Button,
   Card,
   CardSection,
+  CloseButton,
+  Container,
+  Flex,
   Grid,
   GridCol,
   Group,
@@ -15,9 +18,10 @@ import {
   MenuTarget,
   rem,
   Text,
+  TextInput,
   Title,
 } from "@mantine/core";
-import { FC, useEffect, useState } from "react";
+import { BaseSyntheticEvent, FC, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AddNewTracker } from "./components/AddNewTracker";
 import { IconDots, IconPencil, IconTrash } from "@tabler/icons-react";
@@ -31,7 +35,9 @@ import { EditTrackerDetail } from "./components/EditTrackerDetail";
  */
 
 export const Tracker: FC = () => {
-  const [trackerDetails, setTrackerDetails] = useState<any[]>();
+  const trackerDetails = useRef<any[]>();
+  const [trackerDetailsFiltered, setTrackerDetailsFiltered] = useState<any[]>();
+  const search = useRef<HTMLInputElement>(null);
   const [openNew, setOpenNew] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -42,7 +48,8 @@ export const Tracker: FC = () => {
   const loadData = () => {
     // load tracker details
     getTrackerDeatils().then((res) => {
-      setTrackerDetails(res.data);
+      trackerDetails.current = res.data;
+      setTrackerDetailsFiltered(res.data);
     });
   };
 
@@ -50,14 +57,54 @@ export const Tracker: FC = () => {
     loadData();
   }, []);
 
+  const filterTracker = () => {
+    setTrackerDetailsFiltered(
+      trackerDetails.current?.filter((tracker) =>
+        tracker.name.toLowerCase().includes(search.current?.value.toLowerCase())
+      )
+    );
+  };
+
+  const onSearch = (e: BaseSyntheticEvent) => {
+    e.preventDefault();
+    filterTracker();
+  };
+
   return (
-    <div>
+    <Container>
       <Title order={2}>Katik Tracker</Title>
+      <Box>
+        <form onSubmit={onSearch}>
+          <Flex>
+            <Box style={{ width: "100%" }}>
+              <TextInput
+                placeholder="Search tracker"
+                ref={search}
+                rightSection={
+                  <CloseButton
+                    aria-label="Clear input"
+                    onClick={() => {
+                      search.current!.value = "";
+                      filterTracker();
+                    }}
+                    style={{
+                      display: search.current?.value ? undefined : "none",
+                    }}
+                  />
+                }
+              />
+            </Box>
+            <Button ml="sm" type="submit" w="100px">
+              Search
+            </Button>
+          </Flex>
+        </form>
+      </Box>
       <Box mt="sm">
         <Button onClick={() => setOpenNew(true)}>+ Create new tracker</Button>
       </Box>
       <Grid mt="md">
-        {trackerDetails?.map((tracker) => (
+        {trackerDetailsFiltered?.map((tracker) => (
           <GridCol span={{ base: 12, sm: 6, md: 4, lg: 3 }} key={tracker.id}>
             <Card shadow="sm" padding="md" radius="md">
               <CardSection inheritPadding py="xs">
@@ -145,6 +192,6 @@ export const Tracker: FC = () => {
           }}
         />
       )}
-    </div>
+    </Container>
   );
 };
