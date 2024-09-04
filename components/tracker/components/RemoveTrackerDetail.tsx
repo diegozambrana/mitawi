@@ -17,7 +17,7 @@ export const RemoveTrackerDetail: FC<RemoveTrackerDetailProps> = ({
   if (!tracker) return null;
   return (
     <Modal title="Remove track" opened={open} onClose={onClose}>
-      <Text>Do you want to remove this "{tracker.name}" tracker?</Text>
+      <Text>Do you want to remove this {`"${tracker.name}"`} tracker?</Text>
       <Flex justify="flex-end" mt="md">
         <Button variant="filled" color="nord3" onClick={onClose}>
           Cancel
