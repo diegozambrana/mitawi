@@ -1,9 +1,28 @@
 "use client";
 import { useTracker } from "@/hooks/api/useTracker";
-import { Box, Button, Card, Grid, GridCol, Text, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Card,
+  CardSection,
+  Grid,
+  GridCol,
+  Group,
+  Menu,
+  MenuDropdown,
+  MenuItem,
+  MenuTarget,
+  rem,
+  Text,
+  Title,
+} from "@mantine/core";
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { AddNewTracker } from "./components/AddNewTracker";
+import { IconDots, IconPencil, IconTrash } from "@tabler/icons-react";
+import { RemoveTrackerDetail } from "./components/RemoveTrackerDetail";
+import { EditTrackerDetail } from "./components/EditTrackerDetail";
 
 /* 
   This component is used to display all the trackers in the system.
@@ -14,8 +33,11 @@ import { AddNewTracker } from "./components/AddNewTracker";
 export const Tracker: FC = () => {
   const [trackerDetails, setTrackerDetails] = useState<any[]>();
   const [openNew, setOpenNew] = useState(false);
+  const [openRemove, setOpenRemove] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selectedTracker, setSelectedTracker] = useState<any>();
 
-  const { getTrackerDeatils } = useTracker();
+  const { getTrackerDeatils, deleteTracker } = useTracker();
 
   const loadData = () => {
     // load tracker details
@@ -38,7 +60,49 @@ export const Tracker: FC = () => {
         {trackerDetails?.map((tracker) => (
           <GridCol span={{ base: 12, sm: 6, md: 4, lg: 3 }} key={tracker.id}>
             <Card shadow="sm" padding="md" radius="md">
-              <Title order={4}>{tracker.name}</Title>
+              <CardSection inheritPadding py="xs">
+                <Group justify="space-between">
+                  <Title order={4}>{tracker.name}</Title>
+                  <Menu withinPortal position="bottom-end" shadow="sm">
+                    <MenuTarget>
+                      <ActionIcon variant="subtle" color="gray">
+                        <IconDots style={{ width: rem(16), height: rem(16) }} />
+                      </ActionIcon>
+                    </MenuTarget>
+
+                    <MenuDropdown>
+                      <MenuItem
+                        leftSection={
+                          <IconPencil
+                            style={{ width: rem(14), height: rem(14) }}
+                          />
+                        }
+                        onClick={() => {
+                          setSelectedTracker(tracker);
+                          setOpenEdit(true);
+                        }}
+                      >
+                        Edit
+                      </MenuItem>
+                      <MenuItem
+                        leftSection={
+                          <IconTrash
+                            style={{ width: rem(14), height: rem(14) }}
+                          />
+                        }
+                        onClick={() => {
+                          setSelectedTracker(tracker);
+                          setOpenRemove(true);
+                        }}
+                        color="red"
+                      >
+                        Delete
+                      </MenuItem>
+                    </MenuDropdown>
+                  </Menu>
+                </Group>
+              </CardSection>
+
               <Text>{tracker.description}</Text>
               <Box mt="sm">
                 <Button component={Link} href={`/tracker/${tracker.code}`}>
@@ -56,6 +120,31 @@ export const Tracker: FC = () => {
         }}
         onCreate={loadData}
       />
+      <RemoveTrackerDetail
+        open={openRemove}
+        onClose={() => {
+          setOpenRemove(false);
+        }}
+        tracker={selectedTracker}
+        onRemove={() => {
+          deleteTracker(selectedTracker.id).then(() => {
+            loadData();
+            setOpenRemove(false);
+          });
+        }}
+      />
+      {selectedTracker && (
+        <EditTrackerDetail
+          open={openEdit}
+          onClose={() => {
+            setOpenEdit(false);
+          }}
+          tracker={selectedTracker}
+          onEdit={() => {
+            loadData();
+          }}
+        />
+      )}
     </div>
   );
 };
