@@ -22,6 +22,7 @@ import Link from "next/link";
 import { AddNewTracker } from "./components/AddNewTracker";
 import { IconDots, IconPencil, IconTrash } from "@tabler/icons-react";
 import { RemoveTrackerDetail } from "./components/RemoveTrackerDetail";
+import { EditTrackerDetail } from "./components/EditTrackerDetail";
 
 /* 
   This component is used to display all the trackers in the system.
@@ -33,6 +34,7 @@ export const Tracker: FC = () => {
   const [trackerDetails, setTrackerDetails] = useState<any[]>();
   const [openNew, setOpenNew] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [selectedTracker, setSelectedTracker] = useState<any>();
 
   const { getTrackerDeatils, deleteTracker } = useTracker();
@@ -75,6 +77,10 @@ export const Tracker: FC = () => {
                             style={{ width: rem(14), height: rem(14) }}
                           />
                         }
+                        onClick={() => {
+                          setSelectedTracker(tracker);
+                          setOpenEdit(true);
+                        }}
                       >
                         Edit
                       </MenuItem>
@@ -85,8 +91,8 @@ export const Tracker: FC = () => {
                           />
                         }
                         onClick={() => {
-                          setOpenRemove(true);
                           setSelectedTracker(tracker);
+                          setOpenRemove(true);
                         }}
                         color="red"
                       >
@@ -127,6 +133,18 @@ export const Tracker: FC = () => {
           });
         }}
       />
+      {selectedTracker && (
+        <EditTrackerDetail
+          open={openEdit}
+          onClose={() => {
+            setOpenEdit(false);
+          }}
+          tracker={selectedTracker}
+          onEdit={() => {
+            loadData();
+          }}
+        />
+      )}
     </div>
   );
 };
